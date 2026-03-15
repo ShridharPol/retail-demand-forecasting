@@ -1,0 +1,29 @@
+name: retail_forecasting
+version: '1.0.0'
+config-version: 2
+
+profile: retail_forecasting
+
+model-paths: ['models']
+analysis-paths: ['analyses']
+test-paths: ['tests']
+seed-paths: ['seeds']
+macro-paths: ['macros']
+snapshot-paths: ['snapshots']
+
+target-path: 'target'
+clean-targets: ['target', 'dbt_packages']
+
+models:
+  retail_forecasting:
+    staging:
+      +schema: retail_staging
+      +materialized: view
+    marts:
+      +schema: retail_marts
+      +materialized: table
+
+vars:
+  start_date: '2010-01-01'
+  end_date: '2024-12-31'
+  forecast_horizon_weeks: 12
