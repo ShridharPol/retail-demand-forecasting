@@ -1,5 +1,7 @@
 # Retail Demand Forecasting & Inventory Intelligence Pipeline
 
+![CI](https://github.com/ShridharPol/retail-demand-forecasting/actions/workflows/ci.yml/badge.svg)
+
 > An end-to-end ML pipeline proof-of-concept built for **Hamdan InfoCom**, demonstrating feasibility of a production-grade demand forecasting system for retail and SME clients.
 
 > **Note:** This pipeline was scoped and architected during my time at Hamdan InfoCom, Belagavi, as a feasibility prototype for retail clients considering a full demand forecasting system. This repository is a portfolio reconstruction using public benchmark datasets (Walmart, Rossmann, Online Retail II) as proxies for client sales data.
