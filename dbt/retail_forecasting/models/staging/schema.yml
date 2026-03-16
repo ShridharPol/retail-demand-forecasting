@@ -1,0 +1,55 @@
+version: 2
+
+sources:
+  - name: retail_raw
+    database: retail-pipeline-poc
+    schema: retail_raw
+    tables:
+      - name: walmart_train
+      - name: walmart_stores
+      - name: walmart_features
+      - name: walmart_test
+      - name: rossmann_train
+      - name: rossmann_stores
+      - name: rossmann_test
+      - name: online_retail_raw
+
+models:
+  - name: stg_walmart_sales
+    description: "Cleaned Walmart weekly sales joined with store and feature data"
+    columns:
+      - name: store_id
+        tests:
+          - not_null
+      - name: dept_id
+        tests:
+          - not_null
+      - name: sale_date
+        tests:
+          - not_null
+      - name: weekly_sales
+        tests:
+          - not_null
+
+  - name: stg_rossmann_sales
+    description: "Cleaned Rossmann daily sales joined with store metadata"
+    columns:
+      - name: store_id
+        tests:
+          - not_null
+      - name: sale_date
+        tests:
+          - not_null
+      - name: daily_sales
+        tests:
+          - not_null
+
+  - name: stg_online_retail
+    description: "Cleaned Online Retail II transactions with cancellation flags"
+    columns:
+      - name: invoice_id
+        tests:
+          - not_null
+      - name: stock_code
+        tests:
+          - not_null

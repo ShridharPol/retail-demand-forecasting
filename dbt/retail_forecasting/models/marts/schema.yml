@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: mart_weekly_sales
+    description: "Walmart weekly sales with rolling averages and YoY comparisons"
+    columns:
+      - name: store_id
+        tests: [not_null]
+      - name: dept_id
+        tests: [not_null]
+      - name: sale_date
+        tests: [not_null]
+      - name: weekly_sales
+        tests: [not_null]
+
+  - name: mart_store_features
+    description: "Store-level aggregated metrics and performance summary"
+    columns:
+      - name: store_id
+        tests: [not_null, unique]
+
+  - name: mart_promotion_lift
+    description: "Promo vs non-promo sales lift per Rossmann store"
+    columns:
+      - name: store_id
+        tests: [not_null, unique]
+
+  - name: mart_inventory_risk
+    description: "Sales volatility and demand risk tiers per store+dept"
+    columns:
+      - name: store_id
+        tests: [not_null]
+      - name: dept_id
+        tests: [not_null]
+
+  - name: mart_demand_features
+    description: "ML-ready feature table for Prophet and LightGBM forecasting"
+    columns:
+      - name: store_id
+        tests: [not_null]
+      - name: dept_id
+        tests: [not_null]
+      - name: sale_date
+        tests: [not_null]
+      - name: weekly_sales
+        tests: [not_null]
