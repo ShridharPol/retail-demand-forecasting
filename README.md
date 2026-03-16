@@ -6,6 +6,12 @@
 
 ---
 
+## Dashboard Preview
+
+![Looker Studio Dashboard](assets/dashboard_preview.png)
+
+---
+
 ## Architecture
 
 ```
