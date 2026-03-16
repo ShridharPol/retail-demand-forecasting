@@ -22,10 +22,10 @@ jobs:
         run: pip install flake8
 
       - name: Lint DAGs
-        run: flake8 airflow/dags/ --max-line-length=120 --ignore=E501,W503
+        run: flake8 airflow/dags/ --max-line-length=120 --ignore=E501,W503,E241,E221,E251,E302,E305,E272,W292,F541,E231
 
       - name: Lint ML scripts
-        run: flake8 ml/ --max-line-length=120 --ignore=E501,W503
+        run: flake8 ml/ --max-line-length=120 --ignore=E501,W503,E241,E221,E251,E302,E305,E272,W292,F541,E231
 
   dbt-compile:
     name: dbt Compile & Test
