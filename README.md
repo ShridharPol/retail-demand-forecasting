@@ -14,6 +14,23 @@
 
 ---
 
+## 🚀 Live Demo
+
+The forecasting API is deployed on **Google Cloud Run** (asia-south1).
+
+| Endpoint | URL |
+|---|---|
+| **Demo UI** | [/ui](https://retail-forecast-api-612014045887.asia-south1.run.app/ui) |
+| **API Docs** | [/docs](https://retail-forecast-api-612014045887.asia-south1.run.app/docs) |
+| **Health Check** | [/health](https://retail-forecast-api-612014045887.asia-south1.run.app/health) |
+
+**Try it:** Select a store, choose LightGBM or Prophet, and click **Run Forecast** to see 12-week demand predictions with inventory risk tiers.
+
+> Cloud Run URL: `https://retail-forecast-api-612014045887.asia-south1.run.app`  
+> GCP Project: `retail-pipeline-poc` · Region: `asia-south1`
+
+---
+
 ## Architecture
 
 ```
@@ -60,6 +77,7 @@ Raw Data (Kaggle/UCI)
 | Forecasting | Prophet 1.1.5, LightGBM 4.3.0 |
 | Experiment Tracking | MLflow 2.14.1 |
 | Dashboard | Looker Studio |
+| API | FastAPI on Google Cloud Run |
 | Version Control | GitHub |
 | Language | Python 3.8 |
 
@@ -79,6 +97,10 @@ Raw Data (Kaggle/UCI)
 
 ```
 retail-pipeline/
+├── api/
+│   ├── main.py           ← FastAPI app (Cloud Run)
+│   ├── ui.html           ← demo UI
+│   └── Dockerfile
 ├── airflow/
 │   └── dags/
 │       ├── dag_walmart_ingest.py
@@ -100,7 +122,8 @@ retail-pipeline/
 ├── ml/
 │   ├── train_prophet.py
 │   ├── train_lightgbm.py
-│   └── forecast_output.py
+│   ├── forecast_output.py
+│   └── drift_detection.py
 ├── credentials/          ← gitignored
 ├── data/                 ← gitignored
 ├── mlflow/               ← gitignored
@@ -132,8 +155,8 @@ Three Airflow DAGs ingesting Walmart, Rossmann, and Online Retail II datasets in
 
 LightGBM outperforms Prophet by ~98% due to its ability to learn cross-store patterns and leverage engineered lag features. Top predictive features: `dept_id`, `week_of_year`, `rolling_4wk_avg`, `sales_lag_1wk`, `sales_lag_52wk`.
 
-### Phase 5 — Dashboard
-Looker Studio dashboard connected to BigQuery showing forecast vs actuals, promotional lift by store, and inventory risk tiers.
+### Phase 5 — Dashboard & API
+Looker Studio dashboard connected to BigQuery showing forecast vs actuals, promotional lift by store, and inventory risk tiers. FastAPI service deployed on Cloud Run exposes forecast endpoints with a self-serve demo UI.
 
 ---
 
