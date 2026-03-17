@@ -170,6 +170,8 @@ Looker Studio dashboard connected to BigQuery showing forecast vs actuals, promo
 
 4. **Holiday weeks are the primary forecast challenge** — weighted 5x in WMAE metric, they account for disproportionate error in both models.
 
+5. **Drift detection confirms model stability on core demand signals** — PSI analysis of the final 12 weeks vs. the training baseline shows all lag features, rolling averages, weekly sales, and store/dept distributions are LOW drift (PSI < 0.1). Elevated PSI on `week_of_year`, `month`, `quarter`, and markdown flags is expected: the recent window covers only Aug–Oct (weeks 32–43), while the baseline spans the full year, and Walmart's markdown programme was rolled out progressively over 2011–2012. No retraining is indicated.
+
 ---
 
 ## Business Impact (PoC Framing)

@@ -1,0 +1,114 @@
+{
+  "run_timestamp": "2026-03-17T17:31:42.052230",
+  "cutoff_date": "2012-08-03",
+  "recent_weeks": 12,
+  "baseline_rows": 384761,
+  "recent_rows": 35451,
+  "summary": {
+    "high": 10,
+    "medium": 0,
+    "low": 10
+  },
+  "features": {
+    "store_size": {
+      "psi": 0.0001,
+      "tier": "LOW",
+      "type": "numeric"
+    },
+    "total_markdown": {
+      "psi": 5.2467,
+      "tier": "HIGH",
+      "type": "numeric"
+    },
+    "sales_lag_1wk": {
+      "psi": 0.001,
+      "tier": "LOW",
+      "type": "numeric"
+    },
+    "sales_lag_4wk": {
+      "psi": 0.003,
+      "tier": "LOW",
+      "type": "numeric"
+    },
+    "sales_lag_52wk": {
+      "psi": 0.0053,
+      "tier": "LOW",
+      "type": "numeric"
+    },
+    "rolling_4wk_avg": {
+      "psi": 0.0017,
+      "tier": "LOW",
+      "type": "numeric"
+    },
+    "rolling_13wk_avg": {
+      "psi": 0.0025,
+      "tier": "LOW",
+      "type": "numeric"
+    },
+    "weekly_sales": {
+      "psi": 0.0008,
+      "tier": "LOW",
+      "type": "numeric"
+    },
+    "store_id": {
+      "psi": 0.0002,
+      "tier": "LOW",
+      "type": "categorical"
+    },
+    "dept_id": {
+      "psi": 0.0195,
+      "tier": "LOW",
+      "type": "categorical"
+    },
+    "week_of_year": {
+      "psi": 9.5128,
+      "tier": "HIGH",
+      "type": "categorical"
+    },
+    "month": {
+      "psi": 10.3196,
+      "tier": "HIGH",
+      "type": "categorical"
+    },
+    "quarter": {
+      "psi": 7.3753,
+      "tier": "HIGH",
+      "type": "categorical"
+    },
+    "is_holiday": {
+      "psi": 0.0029,
+      "tier": "LOW",
+      "type": "categorical"
+    },
+    "is_holiday_season": {
+      "psi": 1.6589,
+      "tier": "HIGH",
+      "type": "categorical"
+    },
+    "has_markdown1": {
+      "psi": 4.1842,
+      "tier": "HIGH",
+      "type": "categorical"
+    },
+    "has_markdown2": {
+      "psi": 0.4355,
+      "tier": "HIGH",
+      "type": "categorical"
+    },
+    "has_markdown3": {
+      "psi": 2.1174,
+      "tier": "HIGH",
+      "type": "categorical"
+    },
+    "has_markdown4": {
+      "psi": 1.9959,
+      "tier": "HIGH",
+      "type": "categorical"
+    },
+    "has_markdown5": {
+      "psi": 10.2616,
+      "tier": "HIGH",
+      "type": "categorical"
+    }
+  }
+}
