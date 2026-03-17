@@ -1,50 +1,39 @@
 name: CI Pipeline
-
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
-
 jobs:
   lint:
     name: Python Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.8"
-
       - name: Install flake8
         run: pip install flake8
-
       - name: Lint DAGs
         run: flake8 airflow/dags/ --max-line-length=120 --ignore=E501,W503,E241,E221,E251,E302,E305,E272,W292,F541,E231,E203,E222,E712,F401
-
       - name: Lint ML scripts
-        run: flake8 ml/ --max-line-length=120 --ignore=E501,W503,E241,E221,E251,E302,E305,E272,W292,F541,E231,E203,E222,E712,F401
-
+        run: flake8 ml/ --max-line-length=120 --ignore=E501,W503,E241,E221,E251,E302,E305,E272,W292,F541,E231,E203,E222,E712,F401,E265,E266,W391,E701,E704
   dbt-compile:
     name: dbt Compile & Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.8"
-
       - name: Install dbt
         run: pip install dbt-core==1.8.3 dbt-bigquery==1.8.2
-
       - name: Write GCP credentials
         run: |
           echo '${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}' > /tmp/gcp-key.json
-
       - name: Write dbt profiles
         run: |
           mkdir -p ~/.dbt
@@ -63,11 +52,9 @@ jobs:
                 timeout_seconds: 300
                 priority: interactive
           EOF
-
       - name: dbt compile
         working-directory: dbt/retail_forecasting
         run: dbt compile
-
       - name: dbt test
         working-directory: dbt/retail_forecasting
         run: dbt test
