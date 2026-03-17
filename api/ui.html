@@ -36,7 +36,6 @@
 
     .container { max-width: 1100px; margin: 0 auto; padding: 28px 24px; }
 
-    /* Controls */
     .controls {
       background: white;
       border-radius: 12px;
@@ -53,11 +52,7 @@
     select, .model-toggle { height: 40px; border-radius: 8px; border: 1px solid #e0e4f0; font-size: 14px; color: #1a1a2e; background: #f8f9fc; padding: 0 12px; cursor: pointer; outline: none; }
     select:focus { border-color: #0f3460; }
 
-    .model-toggle {
-      display: flex;
-      padding: 0;
-      overflow: hidden;
-    }
+    .model-toggle { display: flex; padding: 0; overflow: hidden; }
     .model-toggle button {
       flex: 1;
       border: none;
@@ -69,10 +64,7 @@
       padding: 0 16px;
       transition: all 0.2s;
     }
-    .model-toggle button.active {
-      background: #0f3460;
-      color: white;
-    }
+    .model-toggle button.active { background: #0f3460; color: white; }
 
     .btn-run {
       height: 40px;
@@ -89,69 +81,40 @@
     .btn-run:hover { background: #1a4a80; }
     .btn-run:disabled { background: #aaa; cursor: not-allowed; }
 
-    /* Summary cards */
     .summary-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 16px;
       margin-bottom: 24px;
     }
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
+    .card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
     .card-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
     .card-value { font-size: 28px; font-weight: 700; color: #0f3460; }
     .card-sub   { font-size: 12px; color: #aaa; margin-top: 4px; }
 
-    /* Chart */
-    .chart-card {
-      background: white;
-      border-radius: 12px;
-      padding: 24px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      margin-bottom: 24px;
-    }
+    .chart-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 24px; }
     .chart-title { font-size: 15px; font-weight: 700; color: #1a1a2e; margin-bottom: 20px; }
     .chart-wrap  { position: relative; height: 300px; }
 
-    /* Risk section */
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 
     .risk-bars { margin-top: 12px; }
     .risk-row  { margin-bottom: 12px; }
-    .risk-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      color: #444;
-      margin-bottom: 5px;
-      font-weight: 600;
-    }
+    .risk-label { display: flex; justify-content: space-between; font-size: 13px; color: #444; margin-bottom: 5px; font-weight: 600; }
     .bar-bg { background: #f0f2f5; border-radius: 6px; height: 10px; overflow: hidden; }
     .bar-fill { height: 100%; border-radius: 6px; transition: width 0.8s ease; }
     .bar-high   { background: #e94560; }
     .bar-medium { background: #f5a623; }
     .bar-low    { background: #22a55b; }
 
-    /* Dept risk table */
     .risk-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
     .risk-table th { text-align: left; padding: 8px 10px; color: #888; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #eee; }
     .risk-table td { padding: 8px 10px; border-bottom: 1px solid #f5f5f5; }
-    .tier-badge {
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 700;
-    }
+    .tier-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
     .tier-HIGH   { background: #fff0f3; color: #e94560; }
     .tier-MEDIUM { background: #fff8ec; color: #c07d00; }
     .tier-LOW    { background: #f0fff4; color: #22a55b; }
 
-    /* Spinner */
     .spinner { display: none; text-align: center; padding: 60px 0; color: #888; font-size: 14px; }
     .spinner::before {
       content: '';
@@ -183,7 +146,6 @@
 
 <div class="container">
 
-  <!-- Controls -->
   <div class="controls">
     <div class="control-group">
       <label>Store</label>
@@ -205,13 +167,10 @@
     <span class="error-msg hidden" id="error-msg"></span>
   </div>
 
-  <!-- Spinner -->
   <div class="spinner" id="spinner">Loading forecast data...</div>
 
-  <!-- Results -->
   <div id="results" class="hidden">
 
-    <!-- Summary cards -->
     <div class="summary-grid">
       <div class="card">
         <div class="card-label">Store</div>
@@ -235,7 +194,6 @@
       </div>
     </div>
 
-    <!-- Forecast chart -->
     <div class="chart-card">
       <div class="chart-title" id="chart-title">Weekly Demand Forecast</div>
       <div class="chart-wrap">
@@ -243,7 +201,6 @@
       </div>
     </div>
 
-    <!-- Risk section -->
     <div class="two-col">
       <div class="card">
         <div class="chart-title">Inventory Risk Summary</div>
@@ -281,6 +238,7 @@
   const BASE = '';
   let selectedModel = 'lightgbm';
   let forecastChart = null;
+  const riskCache = {};
 
   function setModel(m) {
     selectedModel = m;
@@ -299,6 +257,15 @@
     }
   }
 
+  async function getRisk(storeId) {
+    if (riskCache[storeId]) return riskCache[storeId];
+    const r = await fetch(`${BASE}/risk?store_id=${storeId}`);
+    if (!r.ok) throw new Error(`Risk data not available for store ${storeId}`);
+    const data = await r.json();
+    riskCache[storeId] = data;
+    return data;
+  }
+
   async function runForecast() {
     const storeId = document.getElementById('store-select').value;
     if (!storeId) return;
@@ -309,15 +276,10 @@
     document.getElementById('btn-run').disabled = true;
 
     try {
-      const [fRes, rRes] = await Promise.all([
-        fetch(`${BASE}/forecast?store_id=${storeId}&model=${selectedModel}`),
-        fetch(`${BASE}/risk?store_id=${storeId}`)
-      ]);
-
+      const fRes = await fetch(`${BASE}/forecast?store_id=${storeId}&model=${selectedModel}`);
       if (!fRes.ok) throw new Error('Forecast not available for this store/model combination');
       const fData = await fRes.json();
-      const rData = await rRes.json();
-
+      const rData = await getRisk(storeId);
       renderResults(fData, rData);
     } catch(e) {
       document.getElementById('error-msg').textContent = e.message;
@@ -329,7 +291,6 @@
   }
 
   function renderResults(fData, rData) {
-    // Summary cards
     document.getElementById('c-store').textContent = `Store ${fData.store_id}`;
     document.getElementById('c-store-type').textContent = `Type ${rData.store_type}`;
     document.getElementById('c-model').textContent = fData.model.toUpperCase();
@@ -337,7 +298,6 @@
     document.getElementById('c-weeks').textContent = fData.forecasts.length;
     document.getElementById('c-high').textContent = rData.summary.HIGH;
 
-    // Aggregate forecast by date (sum across depts)
     const byDate = {};
     fData.forecasts.forEach(f => {
       if (!byDate[f.date]) byDate[f.date] = { yhat: 0, lower: 0, upper: 0 };
@@ -351,7 +311,6 @@
     const lowers = dates.map(d => Math.round(byDate[d].lower));
     const uppers = dates.map(d => Math.round(byDate[d].upper));
 
-    // Chart
     document.getElementById('chart-title').textContent =
       `Weekly Demand Forecast — Store ${fData.store_id} (${fData.model.toUpperCase()})`;
 
@@ -422,7 +381,6 @@
       }
     });
 
-    // Risk bars
     const total = rData.summary.HIGH + rData.summary.MEDIUM + rData.summary.LOW;
     ['HIGH','MEDIUM','LOW'].forEach(tier => {
       const n = rData.summary[tier];
@@ -431,7 +389,6 @@
       document.getElementById(`b-${tier.toLowerCase()}`).style.width = pct + '%';
     });
 
-    // Top high-risk depts table
     const tbody = document.getElementById('risk-tbody');
     const topDepts = rData.departments.slice(0, 10);
     tbody.innerHTML = topDepts.map(d => `
