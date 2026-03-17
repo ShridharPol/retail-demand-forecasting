@@ -5,6 +5,7 @@ FastAPI app deployed on Cloud Run.
 Reads forecast and risk data from BigQuery.
 
 Endpoints:
+  GET /ui                            → demo UI
   GET /health                        → health check
   GET /stores                        → list all store IDs
   GET /forecast?store_id=1&model=lightgbm  → latest forecast for a store
@@ -12,8 +13,12 @@ Endpoints:
 """
 
 import os
+from pathlib import Path
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import HTMLResponse
 from google.cloud import bigquery
+
+UI_PATH = Path(__file__).parent / "ui.html"
 
 PROJECT_ID = os.environ.get("GCP_PROJECT_ID", "retail-pipeline-poc")
 BQ_CLIENT  = None  # lazy init
@@ -30,6 +35,13 @@ def get_client():
     if BQ_CLIENT is None:
         BQ_CLIENT = bigquery.Client(project=PROJECT_ID)
     return BQ_CLIENT
+
+
+@app.get("/ui", response_class=HTMLResponse, include_in_schema=False)
+def ui():
+    """Demo UI — interactive forecast and risk explorer"""
+    with open(UI_PATH) as f:
+        return f.read()
 
 
 @app.get("/health")
