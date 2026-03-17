@@ -110,7 +110,8 @@ def drift_tier(psi_val: float) -> str:
         return "LOW"
     elif psi_val < PSI_HIGH:
         return "MEDIUM"
-    return "HIGH"
+    else:
+        return "HIGH"
 
 
 # ── Main ──────────────────────────────────────────────────────
@@ -201,8 +202,11 @@ def main():
             "recent_weeks"  : RECENT_WEEKS,
             "baseline_rows" : len(baseline),
             "recent_rows"   : len(recent),
-            "summary"       : {"high": n_high, "medium": n_medium,
-                               "low": len(results) - n_high - n_medium},
+            "summary": {
+                "high": n_high,
+                "medium": n_medium,
+                "low": len(results) - n_high - n_medium,
+            },
             "features"      : results,
         }
 
