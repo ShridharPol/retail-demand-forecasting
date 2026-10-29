@@ -2,10 +2,30 @@
 
 ![CI](https://github.com/ShridharPol/retail-demand-forecasting/actions/workflows/ci.yml/badge.svg)
 
-> An end-to-end ML pipeline proof-of-concept built for **Hamdan InfoCom**, demonstrating feasibility of a production-grade demand forecasting system for retail and SME clients.
+> An end-to-end ML portfolio reconstruction demonstrating a production-oriented demand forecasting architecture for retail and SME applications, based on a client solution originally developed and deployed during my time at Hamdan InfoCom.
 
-> **Note:** This pipeline was scoped and architected during my time at Hamdan InfoCom, Belagavi, as a feasibility prototype for retail clients considering a full demand forecasting system. This repository is a portfolio reconstruction using public benchmark datasets (Walmart, Rossmann, Online Retail II) as proxies for client sales data.
+> **Note:** This repository is an independent portfolio reconstruction of the original client deployment, using public retail benchmark datasets (Walmart, Rossmann, and Online Retail II) in place of confidential client sales data (NDA). It recreates the demand forecasting workflow with Prophet and LightGBM models, automated data pipelines, MLOps infrastructure, and cloud-hosted inference. All technical benchmarks and model performance metrics reported here belong to the reconstruction, not the original deployment.
 
+---
+
+## Business Context
+
+A small cashew-processing manufacturer relied on handwritten bookkeeping and intuition-based sales estimates for production and inventory planning. This approach made it difficult to anticipate demand, optimize production quantities, and minimize product waste.
+
+During my time at Hamdan InfoCom, we developed and deployed an ML-driven demand forecasting solution using historical sales records digitized by a third-party provider. The system supported data-driven production planning and delivered measurable operational improvements:
+
+Operational efficiency: Streamlined bookkeeping workflows, reducing routine recordkeeping requirements from 3–4 employees to 1 and freeing staff for higher-value operations.
+
+> Waste reduction: Helped prevent approximately 1.5 metric tons of product waste per month through improved demand-aligned production planning.
+
+> Financial impact: Delivered approximately $5,500 in observed monthly savings.
+
+> Strategic decision-making: Equipped stakeholders with demand forecasts to support production, purchasing, and inventory decisions.
+
+This repository independently recreates the forecasting workflow using public datasets and demonstrates an end-to-end ML pipeline incorporating Airflow, GCS, BigQuery, dbt Core, Prophet, LightGBM, MLflow, and Looker Studio.
+
+The objective is to demonstrate reproducible forecasting, automated data processing, model evaluation, drift monitoring, and cloud-based delivery of actionable business insights.
+---
 ---
 
 ## Dashboard Preview
@@ -153,7 +173,7 @@ Three Airflow DAGs ingesting Walmart, Rossmann, and Online Retail II datasets in
 | Prophet | Per-store, multiplicative seasonality | 92,715 |
 | LightGBM | Global model, all stores/depts | **1,050** |
 
-LightGBM outperforms Prophet by ~98% due to its ability to learn cross-store patterns and leverage engineered lag features. Top predictive features: `dept_id`, `week_of_year`, `rolling_4wk_avg`, `sales_lag_1wk`, `sales_lag_52wk`.
+LightGBM achieved a WMAE of 1,050, compared with 92,715 for Prophet. These results reflect the current benchmark implementations; a direct performance improvement claim requires verification using identical test periods, forecasting horizons, and evaluation methods. Key LightGBM features include `dept_id`, `week_of_year`, `rolling_4wk_avg`, `sales_lag_1wk`, and `sales_lag_52wk`.
 
 ### Phase 5 — Dashboard & API
 Looker Studio dashboard connected to BigQuery showing forecast vs actuals, promotional lift by store, and inventory risk tiers. FastAPI service deployed on Cloud Run exposes forecast endpoints with a self-serve demo UI.
@@ -170,20 +190,25 @@ Looker Studio dashboard connected to BigQuery showing forecast vs actuals, promo
 
 4. **Holiday weeks are the primary forecast challenge** — weighted 5x in WMAE metric, they account for disproportionate error in both models.
 
-5. **Drift detection confirms model stability on core demand signals** — PSI analysis of the final 12 weeks vs. the training baseline shows all lag features, rolling averages, weekly sales, and store/dept distributions are LOW drift (PSI < 0.1). Elevated PSI on `week_of_year`, `month`, `quarter`, and markdown flags is expected: the recent window covers only Aug–Oct (weeks 32–43), while the baseline spans the full year, and Walmart's markdown programme was rolled out progressively over 2011–2012. No retraining is indicated.
+5. **Drift detection confirms model stability on core demand signals** — PSI analysis comparing the final 12 weeks against the training baseline showed low drift (PSI <escape><</escape> 0.1) across lag features, rolling averages, weekly sales, and store/department distributions. Elevated drift in calendar and markdown features reflects seasonal differences and historical promotional changes. While these findings suggest relative feature stability, retraining decisions should also consider recent forecast errors, prediction bias, and changing business conditions.
 
 ---
 
-## Business Impact (PoC Framing)
+## Potential Business Applications
 
-This proof-of-concept demonstrates that a retail client with weekly sales data across multiple stores can:
+This portfolio reconstruction demonstrates how a retail forecasting system could help businesses:
 
-- **Reduce stockouts** by forecasting demand 12 weeks ahead at store+dept granularity
-- **Optimize promotion spend** by identifying which stores have the highest promotional lift
-- **Prioritize inventory planning effort** using demand risk tiers (HIGH/MEDIUM/LOW)
-- **Run the full pipeline automatically** via Airflow on a weekly schedule
+- Inventory Planning: Support stockout reduction through 12-week demand forecasts at store and department levels.
 
-Estimated production build timeline: 8–12 weeks. Infrastructure cost on GCP: ~$200–400/month for a mid-size retailer (50 stores, daily pipeline runs).
+- Promotional Strategy: Identify stores with higher observed promotional lift to inform marketing and inventory decisions.
+
+- Demand Risk Assessment: Prioritize inventory planning using HIGH/MEDIUM/LOW demand variability tiers.
+
+- Workflow Automation: Automate scheduled data ingestion, transformation, forecasting, and reporting through Airflow.
+
+These are potential operational applications of the reconstructed pipeline; actual stockout reduction, inventory savings, and promotional ROI have not been measured.
+
+Estimated production build timeline: 8–12 weeks. Estimated GCP infrastructure cost: $200–400/month for a mid-sized retailer (50 stores, daily pipeline runs). These are planning assumptions, not validated deployment costs.
 
 ---
 
@@ -243,4 +268,4 @@ DVC would add a third versioning layer with no additional capability for this st
 
 ---
 
-*Built by Shridhar Sunilkumar Pol as a portfolio project for Hamdan InfoCom, Belagavi, India.*
+*Developed by Shridhar Sunilkumar Pol. Independent portfolio reconstruction of a demand forecasting solution originally developed during my tenure at Hamdan InfoCom, Belagavi, India.*
